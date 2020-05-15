@@ -1,0 +1,145 @@
+* {
+  box-sizing: border-box;
+
+  font-family: 'Inter', sans-serif;
+}
+
+html {
+  --bg: #fff;
+  --fg: #25282A;
+  --gray: #888;
+  --royal: #0072CE;
+  --blue: #6AD1E3;
+  --primary: #D1CCBD;
+  --secondary: var(--royal);
+  --tertiary: #FF585D;
+  --margin: 32px;
+  --half-margin: 16px;
+
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  line-height: 1.3;
+
+  ::selection {
+    background: var(--secondary);
+    color: var(--bg);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    --bg: #25282A;
+    --fg: #fff;
+    --secondary: var(--blue);
+
+    ::selection {
+      background: var(--secondary);
+      color: var(--fg);
+    }
+  }
+}
+
+a, a:hover, a:visited {
+  color: #0071CE;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 414px) {
+  html {
+    --margin: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.highlight {
+  align-items: center;
+  display: flex;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  label {
+    margin-right: 0.5rem;
+  }
+  input {
+    caret-color: var(--secondary);
+  }
+}
+
+label {
+  color: var(--gray);
+}
+
+@mixin outline {
+  border: 0.1rem solid var(--primary);
+  border-radius: 8px;
+}
+
+.account-info {
+  @include outline;
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  padding: 0.5rem 1rem;
+}
+
+button, .highlight {
+  @include outline;
+  padding: 0.5rem 1rem;
+
+  &:hover, &:focus, &:focus-within {
+    border-color: var(--secondary);
+  }
+}
+
+input {
+  border: none;
+  flex: 1;
+  &:read-only {
+    color: var(--primary)
+  }
+  background: #DDD;
+  max-width: 200px;
+}
+
+
+button, input {
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  outline: none;
+  height: 36px;
+  max-height: 36px;
+  line-height: 16px;
+  font-size: 16px;
+}
+
+button {
+  color: #00C08B;
+  border-color: #00C08B; 
+  position: relative;
+  transition: top 50ms;
+  &:hover, &:focus {
+    top: -1px;
+  }
+  &:active {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    top: 1px;
+  }
+}
+
+.is-premium {
+  border-left: 0.25rem solid var(--secondary);
+  padding-left: 0.25rem;
+  margin-left: -0.5rem;
+}

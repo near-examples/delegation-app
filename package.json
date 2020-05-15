@@ -1,0 +1,45 @@
+{
+  "name": "delegation-app",
+  "description": "Sample Delegation App for Near Protocol - deposit, stake, unstake, withdraw funds to a validator",
+  "version": "0.0.1",
+  "license": "(MIT AND Apache-2.0)",
+  "scripts": {
+    "build": "cd contract && cargo build --target wasm32-unknown-unknown --release",
+    "postbuild": "cp contract/target/wasm32-unknown-unknown/release/rust_counter_tutorial.wasm ./out/main.wasm",
+    "deploy:contract": "near deploy",
+    "deploy:pages": "gh-pages -d src",
+    "deploy": "yarn build && yarn deploy:contract",
+    "deploy:dev": "yarn build && near dev-deploy",
+    "dev": "yarn deploy:dev && yarn start:dev",
+    "prestart": "yarn build && yarn deploy:contract",
+    "start": "parcel src/index.html",
+    "start:dev": "pkill node; env-cmd -f ./neardev/dev-account.env parcel src/index.html",
+    "test:cargo": "cd contract && cargo test -- --nocapture",
+    "test": "yarn build && yarn test:cargo && jest"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "gh-pages": "~2.2.0",
+    "jest": "~25.2.0",
+    "jest-environment-node": "~25.2.3",
+    "near-shell": "^0.22.0",
+    "nodemon": "~2.0.2",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.5"
+  },
+  "jest": {
+    "testEnvironment": "near-shell/test_environment"
+  },
+  "dependencies": {
+    "big.js": "^5.2.2",
+    "near-api-js": "^0.23.2",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "regenerator-runtime": "^0.13.5",
+    "styled-components": "^5.1.0"
+  }
+}
