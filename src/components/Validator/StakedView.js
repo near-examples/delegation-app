@@ -25,7 +25,7 @@ const Root = styled.section`
                 margin: 0;
             }
             p {
-                margin-top: 24px;
+                margin-top: 52px;
             }
             h1 {
                 font-size: 1.5rem;
