@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
@@ -40,7 +40,7 @@ const Root = styled.section`
 
 // https://explorer.testnet.near.org/accounts/staking-pool-2
 
-const UnstakedView = ({ nearState: { currentUser }, contract: {contractId} }) => {
+const UnstakedView = ({ currentUser, contractId }) => {
     const dispatch = useDispatch()
     return <Root>
         <Avatar />
@@ -66,5 +66,5 @@ const UnstakedView = ({ nearState: { currentUser }, contract: {contractId} }) =>
     </Root>
 }
 
-export default UnstakedView
+export default memo(UnstakedView)
 

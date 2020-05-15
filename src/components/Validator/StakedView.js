@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
@@ -54,17 +54,8 @@ const Root = styled.section`
 
 // staking-pool-2
 
-const StakedView = (props) => {
+const StakedView = ({ staked, contractId }) => {
     const dispatch = useDispatch()
-
-    const {
-        contract: {
-            staked,
-            contractId
-        },
-    } = props
-
-    console.log(contractId)
 
     return <Root>
         <Avatar />
@@ -96,4 +87,4 @@ const StakedView = (props) => {
     </Root>
 }
 
-export default StakedView
+export default memo(StakedView)

@@ -2,23 +2,33 @@ import 'regenerator-runtime/runtime'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import {
-    updateState,
-} from '../../redux/validator'
-
 import UnstakedView from './UnstakedView'
 import SelectedView from './SelectedView'
 import StakedView from './StakedView'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const intro = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(1.15, 1.15);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1);
+    box-shadow: none;
+  }
+`;
 
 const Root = styled.section`
+    transform-origin: 50% 50%;
     height: 134px;
     min-height: 134px;
     max-height: 134px;
+    animation: ${intro} 250ms ease-in;
     > div {
         background: white;
         position: relative;
-        transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
+        transition: box-shadow 250ms ease-out, transform 250ms ease-out;
         border-top: 0.1rem solid var(--primary);
         padding: 16px;
     }
@@ -40,32 +50,30 @@ const Root = styled.section`
 const Validator = (props) => {
     const dispatch = useDispatch()
     const {
+        nearState: { currentUser },
         validatorState: {
-            selectedContract,
+            selectedContract, selectedAction,
         },
         contract: {
             contractId, staked
         }
     } = props
     const selected = contractId === selectedContract
+    const hasStake = parseInt(staked) > 0
 
     return <Root>
-        <div 
+        <div
             className={[
                 selected ? 'selected' : '',
-                parseInt(staked) > 0 ? 'staked' : ''
+                hasStake > 0 ? 'staked' : ''
             ].join(' ')}
         >
             {
-                selected
-                    ?
-                    <SelectedView {...props} />
-                    :
-                    parseInt(staked) > 0
-                        ?
-                        <StakedView {...props} />
-                        :
-                        <UnstakedView {...props} />
+                selected ?
+                    <SelectedView {...{ selectedAction, staked, contractId }} /> :
+                    hasStake ?
+                        <StakedView {...{ contractId, staked }} /> :
+                        <UnstakedView {...{ currentUser, contractId }} />
             }
         </div>
     </Root>

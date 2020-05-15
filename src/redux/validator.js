@@ -112,20 +112,15 @@ export const initValidators = () => async (dispatch, getState) => {
 		})
 		// reading state and attaching to contract instance (bad practice?)
 		const account_id = accountId // rust naming of params
-		contract.staked = (
-			await contract.get_account_staked_balance({ account_id })
-			.catch((e) => { console.log(e) })
-		) || '0'
-		contract.unstaked = (
-			await contract.get_account_staked_balance({ account_id })
-			.catch((e) => { console.log(e) })
-		) || '0'
-		// not used
-		// contract.total = (
-		// 	await contract.get_account_staked_balance({ account_id })
-		// 	.catch((e) => { console.log(e) })
-		// ) || '0'
-		dispatch({ type, contracts })
+		await Promise.all([
+			contract.get_account_staked_balance({ account_id })
+				.then((res) => contract.staked = res || '0')
+				.catch((e) => contract.staked = '0'),
+			contract.get_account_unstaked_balance({ account_id })
+				.then((res) => contract.unstaked = res || '0')
+				.catch((e) => contract.unstaked = '0')
+		])
+		dispatch({ type, contracts }) // update UI with each contract we instantiate
 	}
 	dispatch({ type, isLoading: false })
 }

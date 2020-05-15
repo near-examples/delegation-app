@@ -1,12 +1,29 @@
 Delegation App
 =================================
 
-## Approach (understanding this example)
+## High Level Overview (understanding this example)
 - on the initial app mount, all validator contracts have their state read to get the `staked` and `unstaked` near
 - all state updates are done via hooks to functions in `redux/near` or `redux/validator`
 - anything related to validator state changes in the app or contract are made in `redux/validator`
-- there is no need to sign in / out of each contract, since each action will require approval (stake moves near tokens and withdraw, while not moving tokens requires only 1 more approval)
-- another reason for no sign in / out is because the user is potentially interacting with several contracts
+- there is no need to sign in / out of each contract, since each action will require approval (stake moves near tokens and withdraw, while not moving tokens requires only 1 more approval) the user is potentially interacting with several contracts
+- A contract is the `selectedContract` via a hook that updates state in `redux/validator.js`
+- Subsequent hooks dispatched rely on `selectedContract` in order to determine which contract `view` or `change` methods should be called on. This also happens in `redux/validator.js`
+
+## App.js
+- Handles the initial mount with `useEffect`
+- Calls `initNear` and `initValidators` in their respective `redux/` files
+- Handles `signIn` and `signOut` hooks
+- Uses `connect` to connect `nearState` and `validatorState` to the props and passes these props to the child components.
+- As a single page app, all children receive all props
+
+## redux/near.js
+- Manages the connection to nearAPI
+- Handles signIn and signOut actions
+- Check value of currentUser to see if user is signed in or not
+
+## redux/validator.js
+- Maintains the `selectedContract` and `selectedAction` determining how views call hooks and which contract is called when a hook is dispatched from a view
+- `contracts` is an object storing all the contract instances that is initialized `initValidators`
 
 ## Changelog 15-05-2020
 - moved validator contract calls to `redux/validator.js` this is the go to for contract state, which validator is selected, etc...

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { nearTo } from '../../util/near-util'
@@ -49,19 +49,10 @@ const Root = styled.section`
     }
 `;
 
-// https://explorer.testnet.near.org/accounts/staking-pool-2
-
-const SelectedView = (props) => {
+const SelectedView = ({selectedAction, contractId, staked }) => {
     const dispatch = useDispatch()
 
-    const {
-        validatorState: {
-            selectedAction
-        },
-        contract
-    } = props
-
-    const { contractId, staked } = contract
+    console.log(selectedAction)
 
     const option = selectedAction === 'stake' ? {
             label: 'Stake',
@@ -91,4 +82,4 @@ const SelectedView = (props) => {
     </Root>
 }
 
-export default SelectedView
+export default memo(SelectedView)
