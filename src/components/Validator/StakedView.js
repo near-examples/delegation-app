@@ -1,27 +1,20 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { nearTo } from '../../util/near-util'
 
+import {
+    updateState,
+} from '../../redux/validator'
 import Avatar from './Avatar'
 import InputNear from './../InputNear'
 
 import countries from '../../data/countries'
 
 const Root = styled.section`
-    height: 134px;
-    min-height: 134px;
-    max-height: 134px;
-    margin: 16px 0;
-    > div {
         display: flex;
         align-items: center;
-        width: 100%;
-        background: white;
-        padding: 16px;
-
-        border: 0.1rem solid var(--primary);
-        box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
 
         .desc {
             width: 100%;
@@ -56,40 +49,49 @@ const Root = styled.section`
                 border-color: #0071CE;
             }
         }
-        
-    }
     
 `;
 
 // staking-pool-2
 
 const StakedView = (props) => {
+    const dispatch = useDispatch()
 
     const {
-        nearState: {
-            staked
-        }, 
-        contractName
+        contract: {
+            staked,
+            contractId
+        },
     } = props
+
+    console.log(contractId)
+
     return <Root>
-        <div>
-            <Avatar />
-            <div className="desc">
-                <h1>{contractName} {countries.CA.emoji}</h1>
-                <p>
-                    <a href={`https://explorer.testnet.near.org/accounts/${{contractName}}`}>
-                        📈  View transactions on Near
-                    </a>
-                </p>
-            </div>
-            <div className="near">
-                Ⓝ {nearTo(Math.random()*1000000000000000000000000000, 4)}
-            </div>
-            <div className="actions">
-                
-                <button>Withdraw</button>
-                <button>Stake More</button>
-            </div>
+        <Avatar />
+        <div className="desc">
+            <h1>{contractId} {countries.CA.emoji}</h1>
+            <p>
+                <a href={`https://explorer.testnet.near.org/accounts/${contractId}`} target="_blank">
+                    📈  View transactions on Near
+                </a>
+            </p>
+        </div>
+        <div className="near">
+            Ⓝ {nearTo(staked, 4)}
+        </div>
+        <div className="actions">
+            <button onClick={() => {
+                dispatch(updateState('selectedAction', 'withdraw'))
+                dispatch(updateState('selectedContract', contractId))
+            }}>
+                Withdraw
+            </button>
+            <button onClick={() => {
+                dispatch(updateState('selectedAction', 'stake'))
+                dispatch(updateState('selectedContract', contractId))
+            }}>
+                Stake More
+            </button>
         </div>
     </Root>
 }

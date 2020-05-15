@@ -1,8 +1,12 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import Avatar from './Avatar'
 
+import {
+    updateState,
+} from '../../redux/validator'
 import countries from '../../data/countries'
 
 const Root = styled.section`
@@ -36,11 +40,12 @@ const Root = styled.section`
 
 // https://explorer.testnet.near.org/accounts/staking-pool-2
 
-const ListView = ({ contractName }) => {
+const UnstakedView = ({ nearState: { currentUser }, contract: {contractId} }) => {
+    const dispatch = useDispatch()
     return <Root>
         <Avatar />
         <div className="desc">
-            <h2>{contractName}</h2>
+            <h2>{contractId}</h2>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ultrices erat lacus, in feugiat dui pellentesque sit amet. Praesent at lectus accumsan, semper elit quis. <a href="#">Learn More</a>
             
@@ -51,10 +56,15 @@ const ListView = ({ contractName }) => {
             <img src={`https://cdn.countryflags.com/thumbs/${countries.CA.name.toLowerCase()}/flag-400.png`} />
         </div>
         <div className="start">
-            <button>Start Staking</button>
+            <button disabled={!currentUser} onClick={() => {
+                dispatch(updateState('selectedAction', 'stake'))    
+                dispatch(updateState('selectedContract', contractId))
+            }}>
+                Start Staking
+            </button>
         </div>
     </Root>
 }
 
-export default ListView
+export default UnstakedView
 

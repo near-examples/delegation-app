@@ -1,7 +1,19 @@
 Delegation App
 =================================
 
-## Changelog
+## Approach (understanding this example)
+- on the initial app mount, all validator contracts have their state read to get the `staked` and `unstaked` near
+- all state updates are done via hooks to functions in `redux/near` or `redux/validator`
+- anything related to validator state changes in the app or contract are made in `redux/validator`
+- there is no need to sign in / out of each contract, since each action will require approval (stake moves near tokens and withdraw, while not moving tokens requires only 1 more approval)
+- another reason for no sign in / out is because the user is potentially interacting with several contracts
+
+## Changelog 15-05-2020
+- moved validator contract calls to `redux/validator.js` this is the go to for contract state, which validator is selected, etc...
+- still NOT using a router (don't need one RN)
+- broke validator state into 3 component views: Unstaked, Staked, Selected
+
+## Changelog 13/14-05-2020
 - moved all near calls to redux, redux-thunk
 - added styled components
 - still NOT using a router (don't need one RN)

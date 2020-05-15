@@ -1,4 +1,4 @@
-const CONTRACT_NAME = 'mattlock-val-2'//process.env.CONTRACT_NAME || 'mattlock'
+const CONTRACT_NAME = 'staking-pool-2' //process.env.CONTRACT_NAME || 'mattlock'
 
 function getConfig (env) {
   switch (env) {

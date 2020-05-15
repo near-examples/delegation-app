@@ -4,10 +4,11 @@ import { useDispatch } from 'react-redux'
 
 import {
     updateState,
-} from '../../redux/near'
+} from '../../redux/validator'
 
-import ListView from './ListView'
+import UnstakedView from './UnstakedView'
 import SelectedView from './SelectedView'
+import StakedView from './StakedView'
 import styled from 'styled-components'
 
 const Root = styled.section`
@@ -20,6 +21,11 @@ const Root = styled.section`
         transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
         border-top: 0.1rem solid var(--primary);
         padding: 16px;
+    }
+    > div.staked {
+        border: 0.1rem solid var(--primary);
+        box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+        margin: 16px 0;
     }
     > div.selected {
         border: 0.1rem solid var(--primary);
@@ -34,28 +40,32 @@ const Root = styled.section`
 const Validator = (props) => {
     const dispatch = useDispatch()
     const {
-        nearState: {
+        validatorState: {
             selectedContract,
-            loadingBalances,
         },
-        contractName
+        contract: {
+            contractId, staked
+        }
     } = props
-    const selected = contractName === selectedContract
+    const selected = contractId === selectedContract
 
     return <Root>
-        <div className={selected ? 'selected' : ''}
-            onClick={() => {
-                if (selected || loadingBalances) return
-                // dispatch(updateState('loadingBalances', true))
-                dispatch(updateState('selectedContract', contractName))
-            }}
+        <div 
+            className={[
+                selected ? 'selected' : '',
+                parseInt(staked) > 0 ? 'staked' : ''
+            ].join(' ')}
         >
             {
                 selected
                     ?
                     <SelectedView {...props} />
                     :
-                    <ListView {...props} />
+                    parseInt(staked) > 0
+                        ?
+                        <StakedView {...props} />
+                        :
+                        <UnstakedView {...props} />
             }
         </div>
     </Root>

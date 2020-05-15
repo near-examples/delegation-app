@@ -1,12 +1,19 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
+import { nearTo } from '../../util/near-util'
 
 import Avatar from './Avatar'
 import InputNear from './../InputNear'
 
+import {
+    updateState, depositAndStake, onContractChange
+} from '../../redux/validator'
+
 import countries from '../../data/countries'
 
 const Root = styled.section`
+    position: relative;
     display: flex;
     align-items: center;
     .desc {
@@ -22,8 +29,8 @@ const Root = styled.section`
     }
     .actions {
         text-align: right;
-        width: 360px;
-        min-width: 360px;
+        width: 400px;
+        min-width: 400px;
         margin-left: auto;
         > div:first-child {
             color: #888;
@@ -31,30 +38,55 @@ const Root = styled.section`
             margin: 8px 0;
         }
     }
+    .close {
+        position:absolute;
+        top: -16px;
+        right: -16px;
+        padding: 12px;
+        line-height: 12px;
+        z-index: 1000;
+        background: white;
+    }
 `;
 
 // https://explorer.testnet.near.org/accounts/staking-pool-2
 
-const SelectedView = ({ contractName }) => {
+const SelectedView = (props) => {
+    const dispatch = useDispatch()
+
+    const {
+        validatorState: {
+            selectedAction
+        },
+        contract
+    } = props
+
+    const { contractId, staked } = contract
+
+    const option = selectedAction === 'stake' ? {
+            label: 'Stake',
+            desc: `Delegate a certain amount of Ⓝ to start earning rewards. Enter the amount you want to deposit and stake:`,
+            action: (amount) => dispatch(depositAndStake(amount))
+        } : {
+            label: 'Withdraw',
+            desc: `Withdraw up to ${nearTo(staked, 4)} Ⓝ from this validator. Enter the amount you want to withdraw:`,
+            action: (amount) => dispatch(onContractChange('withdraw', {amount}))
+        }
+
     return <Root>
+
+        <div className="close" onClick={() => dispatch(updateState('selectedContract', false))}>×</div>
         <Avatar />
         <div className="desc">
-            <h1>{contractName} {countries.CA.emoji}</h1>
+            <h1>{contractId} {countries.CA.emoji}</h1>
             <p>
-            Delegate a certain amount of Ⓝ to start earning rewards. Enter the amount you want to deposit and stake:
+                {option.desc}
             </p>
         </div>
         
         <div className="actions">
             <div>🔒 You will be sent to your wallet to confirm this transaction.</div>
-            <InputNear 
-                options={[
-                    {
-                        label: 'Stake',
-                        action: (amount) => dispatch(batch(amount))
-                    }
-                ]}
-            />
+            <InputNear {...{options: [option]}} />
         </div>
     </Root>
 }

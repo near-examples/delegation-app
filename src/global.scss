@@ -94,10 +94,6 @@ label {
 button, .highlight {
   @include outline;
   padding: 0.5rem 1rem;
-
-  &:hover, &:focus, &:focus-within {
-    border-color: var(--secondary);
-  }
 }
 
 input {
@@ -127,14 +123,22 @@ button {
   color: #00C08B;
   border-color: #00C08B; 
   position: relative;
-  transition: top 50ms;
+  transition: top 25ms;
   &:hover, &:focus {
-    top: -1px;
+    top: -2px;
   }
   &:active {
-    background: var(--secondary);
-    border-color: var(--secondary);
-    top: 1px;
+    top: 2px;
+  }
+}
+button:disabled {
+  color: #DDD;
+  border-color: #DDD;
+  &:hover, &:focus {
+    top: 0;
+  }
+  &:active {
+    top: 0;
   }
 }
 
