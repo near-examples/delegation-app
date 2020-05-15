@@ -1,6 +1,28 @@
 Delegation App
 =================================
 
+## Quick Install
+- `yarn`
+- `yarn dev`
+App should be running on http://localhost:1234 with parcel
+
+### You will need
+- a web wallet https://wallet.nearprotocol.com/
+
+## Deploy your own contract
+- make sure you have `near-shell` installed
+- `npm i -g near-shell`
+```
+# using the account MY_OWNER (that's you)
+$ near login
+$ near create_account MY_VALIDATOR --masterAccount=mattlock
+$ near deploy --accountId=MY_VALIDATOR --wasmFile=out/main.wasm
+# using public_key from command $ near keys MY_VALIDATOR
+$ near call MY_VALIDATOR new '{"owner_id": "MY_OWNER", "stake_public_key": "688rqcoMGi2pZX3s8Bc9E945e3DAtqHUMHhuohmKftM6", "reward_fee_fraction": {"numerator": 10, "denominator": 100}}' --account_id MY_OWNER
+```
+For more information https://github.com/near/initial-contracts/tree/master/staking-pool#usage 
+
+
 ## High Level Overview (understanding this example)
 - on the initial app mount, all validator contracts have their state read to get the `staked` and `unstaked` near
 - all state updates are done via hooks to functions in `redux/near` or `redux/validator`
