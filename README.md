@@ -8,6 +8,8 @@ Delegation App
 - there is no need to sign in / out of each contract, since each action will require approval (stake moves near tokens and withdraw, while not moving tokens requires only 1 more approval) the user is potentially interacting with several contracts
 - A contract is the `selectedContract` via a hook that updates state in `redux/validator.js`
 - Subsequent hooks dispatched rely on `selectedContract` in order to determine which contract `view` or `change` methods should be called on. This also happens in `redux/validator.js`
+- There is no routing.
+- All components and validator views are in `/components`
 
 ## App.js
 - Handles the initial mount with `useEffect`
