@@ -1,6 +1,11 @@
 Delegation App
 =================================
 
+## WIP
+- Fix withdraw (add unstake)
+- Staked / Unstaked balance on UI
+- Tracking Issue #1
+
 ## Quick Install
 - `yarn`
 - `yarn dev`
