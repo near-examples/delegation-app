@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled, { css } from 'styled-components'
 import { border } from '../styles/mixin'
+import { toNear } from '../util/near-util'
 
 import { 
     onContractChange,
@@ -38,7 +39,7 @@ const InputNear = ({
         </div>
         {
             options.map(({action, label}, i) => 
-                <button key={i} onClick={() => action(amount)}>{ label }</button>
+                <button key={i} onClick={() => action(toNear(amount))}>{ label }</button>
             )
         }
     </Root>

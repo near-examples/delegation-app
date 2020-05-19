@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import { nearTo } from '../../util/near-util'
+import { nearTo, gtZero, gtZeroApprox } from '../../util/near-util'
 
 import {
     updateState, 
@@ -38,11 +38,11 @@ const Root = styled.section`
                 align-items: center;
                 font-weight: 300;
                 > div {
-                    width: 250px;
+                    width: 200px;
                     text-align: left;
                 }
                 > div:first-child {
-                    width: 150px;
+                    width: 200px;
                 }
             }
             /* the labels */
@@ -60,7 +60,7 @@ const Root = styled.section`
                 transform-origin: 0 50%;
                 transform: scale(1.1, 1);
                 > div:nth-child(2) {
-                    margin-left: -15px;
+                    margin-left: -20px;
                     span {
                         color: #999;
                         span {
@@ -77,9 +77,10 @@ const Root = styled.section`
                 min-width: 128px;
                 display: block;
                 margin-left: auto;
-            }
-            button:first-child {
                 margin-bottom: var(--half-margin);
+            }
+            button:nth-child(2) {
+                margin-bottom: 0;
                 color: var(--blue);
                 border-color: var(--blue);
             }
@@ -87,8 +88,10 @@ const Root = styled.section`
     
 `;
 
-const StakedView = ({ staked, unstaked, contractId }) => {
+const StakedView = ({ contractId, staked, unstaked, unstakedAvailable }) => {
     const dispatch = useDispatch()
+
+    console.log(unstaked, gtZeroApprox(unstaked))
 
     return <Root>
         <Avatar />
@@ -103,26 +106,44 @@ const StakedView = ({ staked, unstaked, contractId }) => {
         <div className="near">
             <div>
                 <div>🔒 Staked</div>
-                <div><span>Available</span> / Pending</div>
+                {
+                    unstakedAvailable ?
+                    <div><span>Available</span></div> :
+                    gtZeroApprox(unstaked) && <div>Pending</div>
+                }
             </div>
             <div>
                 <div>Ⓝ {nearTo(staked, 2)}</div>
-                <div>Ⓝ {nearTo(unstaked, 2)} <span>+{nearTo(unstaked, 2)} <span>in 48 h</span></span></div>
+                {
+                    unstakedAvailable ?
+                    <div>Ⓝ {nearTo(unstaked, 2)}</div> :
+                    gtZeroApprox(unstaked) &&
+                    <div><span>{nearTo(unstaked, 2)} <span>in 48 h</span></span></div>
+                }
             </div>
         </div>
         <div className="actions">
             <button onClick={() => {
-                dispatch(updateState('selectedAction', 'withdraw'))
-                dispatch(updateState('selectedContract', contractId))
-            }}>
-                Withdraw
-            </button>
-            <button onClick={() => {
                 dispatch(updateState('selectedAction', 'stake'))
                 dispatch(updateState('selectedContract', contractId))
             }}>
-                Stake More
+                Stake
             </button>
+            {
+                unstakedAvailable ?
+                <button onClick={() => {
+                    dispatch(updateState('selectedAction', 'withdraw'))
+                    dispatch(updateState('selectedContract', contractId))
+                }}>
+                    Withdraw
+                </button> :
+                <button onClick={() => {
+                    dispatch(updateState('selectedAction', 'unstake'))
+                    dispatch(updateState('selectedContract', contractId))
+                }}>
+                    Unstake
+                </button>
+            }
         </div>
     </Root>
 }

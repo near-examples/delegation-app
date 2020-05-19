@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { nearTo } from '../../util/near-util'
+import { big, nearTo } from '../../util/near-util'
 
 import Avatar from './Avatar'
 import InputNear from './../InputNear'
@@ -49,19 +49,39 @@ const Root = styled.section`
     }
 `;
 
-const SelectedView = ({selectedAction, contractId, staked, currentUser }) => {
+const SelectedView = ({selectedAction, contractId, staked, unstaked }) => {
     const dispatch = useDispatch()
-
-    const option = selectedAction === 'stake' ? {
+    
+    let option
+    switch (selectedAction) {
+        case 'stake': option = {
             label: 'Stake',
             desc: `Delegate a certain amount of Ⓝ to start earning rewards. Enter the amount you want to deposit and stake:`,
-            action: (amount) => dispatch(depositAndStake(amount))
-        } : {
-            label: 'Withdraw',
-            desc: `Withdraw up to ${nearTo(staked, 4)} Ⓝ from this validator. Enter the amount you want to withdraw:`,
-            // action: (amount) => dispatch(onContractChange('unstake', {amount}))
-            action: (amount) => dispatch(onContractChange('withdraw', {amount}))
+            action: (amount) => { // amount is in near (big)
+                // enough unstaked balance to restake
+                if (big(amount).lt(big(unstaked))) {
+                    dispatch(onContractChange(selectedAction, {amount}))
+                } else {
+                    // no unstaked balance or not enough unstaked to cover
+                    dispatch(depositAndStake(amount))
+                }
+            }
         }
+        break
+        case 'withdraw': option = {
+            label: 'Withdraw',
+            desc: `Withdraw up to ${nearTo(unstaked, 4)} Ⓝ from this validator. Enter the amount you want to withdraw:`,
+            // action: (amount) => dispatch(onContractChange('unstake', {amount}))
+            action: (amount) => dispatch(onContractChange(selectedAction, {amount}))  // amount is in near (big)
+        }
+        break
+        case 'unstake': option = {
+            label: 'Unstake',
+            desc: `Unstake up to ${nearTo(staked, 4)} Ⓝ from this validator. Enter the amount you want to unstake:`,
+            // action: (amount) => dispatch(onContractChange('unstake', {amount}))
+            action: (amount) => dispatch(onContractChange(selectedAction, {amount}))  // amount is in near (big)
+        }
+    }
 
     return <Root>
 
@@ -74,30 +94,38 @@ const SelectedView = ({selectedAction, contractId, staked, currentUser }) => {
             </p>
         </div>
 
-        <div>
-        <button onClick={() => {
-            dispatch(onContractChange('ping'))
-        }}>
-            Ping
-        </button>
 
-        <button onClick={() => {
-            dispatch(onContractView('is_account_unstaked_balance_available', {account_id: currentUser.accountId }))
-        }}>
-            Test
-        </button></div>
-
+        {
+            /********************************
+            Debugging
+            ********************************/
+        }
         <div>
-        <button onClick={() => {
-            dispatch(onContractChange('deposit', {}, '1'))
-        }}>
-            Deposit 1
-        </button>
-        <button onClick={() => {
-            dispatch(onContractChange('unstake', { amount: '1' }))
-        }}>
-            Unstake 1
-        </button></div>
+            <button onClick={() => {
+                dispatch(onContractChange('ping'))
+            }}>
+                Ping
+            </button>
+        </div>
+        <div>
+            <button onClick={() => {
+                dispatch(onContractChange('deposit', {}, '1'))
+            }}>
+                Deposit 1
+            </button>
+            <button onClick={() => {
+                dispatch(onContractChange('unstake', { amount: '1' }))
+            }}>
+                Unstake 1
+            </button>
+        </div>
+        {
+            /********************************
+            END OF Debugging
+            ********************************/
+        }
+
+
         
         <div className="actions">
             <div>🔒 You will be sent to your wallet to confirm this transaction.</div>

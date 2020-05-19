@@ -1,5 +1,6 @@
 
 import { getReducer, getState } from '../util/redux-util'
+import { big, gtZero } from '../util/near-util'
 import getConfig from '../config.js'
 import * as nearAPI from 'near-api-js'
 import Big from 'big.js'
@@ -49,13 +50,21 @@ Deposit and Stake
 ********************************/
 export const depositAndStake = (amount) => async(dispatch, getState) => {
 	const { walletConnection } = getState().nearReducer
-	const { selectedContract, contracts } = getState().validatorReducer
+	const { selectedContract, contracts,  } = getState().validatorReducer
 	const contract = contracts[selectedContract] 
-	console.log(contract, walletConnection)
-	amount = Big(amount).times(10 ** 24).toFixed()
+	const { unstaked } = contract
+	// how much (more) will we have to deposit to have the unstaked available to stake the amount specified?
+	let depositAmount = amount
+	if (gtZero(unstaked)) {
+		depositAmount = big(amount).minus(big(unstaked)).toFixed()
+	}
+	// console.log(amount, depositAmount, gtZero(depositAmount)))
+	// ok call functions
 	const { functionCall } = nearAPI.transactions
 	const actions = []
-	actions.push(functionCall('deposit', new Uint8Array(), BOATLOAD_OF_GAS, amount))
+	if (gtZero(depositAmount)) {
+		actions.push(functionCall('deposit', new Uint8Array(), BOATLOAD_OF_GAS, depositAmount))
+	}
 	actions.push(functionCall('stake', new TextEncoder().encode(JSON.stringify({amount})), BOATLOAD_OF_GAS))
 	const account = walletConnection.account()
 	account.signAndSendTransaction(selectedContract, actions)
@@ -88,9 +97,6 @@ export const onContractChange = (method, args = {}, payableAmount = '0') => asyn
 		console.log('no contract selected')
 		return
 	}
-	//convert
-	if (args.amount) args.amount = Big(args.amount).times(10 ** 24).toFixed()
-	payableAmount = Big(payableAmount).times(10 ** 24).toFixed()
 	//call
 	const res = await contract[method](args, BOATLOAD_OF_GAS, payableAmount)
 		.catch((e) => { console.log(e) }) // (web wallet handles this part)
@@ -119,7 +125,10 @@ export const initValidators = () => async (dispatch, getState) => {
 				.catch((e) => contract.staked = '0'),
 			contract.get_account_unstaked_balance({ account_id })
 				.then((res) => contract.unstaked = res || '0')
-				.catch((e) => contract.unstaked = '0')
+				.catch((e) => contract.unstaked = '0'),
+			contract.is_account_unstaked_balance_available({ account_id })
+				.then((res) => contract.unstakedAvailable = res || false)
+				.catch((e) => contract.unstakedAvailable = false)
 		]).then(() => {
 			dispatch({ type, contracts }) // update UI with each contract we instantiate
 		})
