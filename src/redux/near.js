@@ -19,7 +19,7 @@ export const updateState = (prop, value) => async (dispatch, getState) => {
 	dispatch({ type, [prop]: value})
 }
 // the contract here doesn't really matter but it should be one we use
-export const signIn = (contractName = 'staking-pool-2') => async (dispatch, getState) => {
+export const signIn = (contractName = 'dev-1589245082250') => async (dispatch, getState) => {
 	const { walletConnection } = getState().nearReducer
     walletConnection.requestSignIn(
         contractName,

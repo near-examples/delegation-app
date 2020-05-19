@@ -55,7 +55,7 @@ const Validator = (props) => {
             selectedContract, selectedAction,
         },
         contract: {
-            contractId, staked
+            contractId, staked, unstaked
         }
     } = props
     const selected = contractId === selectedContract
@@ -70,9 +70,9 @@ const Validator = (props) => {
         >
             {
                 selected ?
-                    <SelectedView {...{ selectedAction, staked, contractId }} /> :
+                    <SelectedView {...{ currentUser, selectedAction, staked, contractId }} /> :
                     hasStake ?
-                        <StakedView {...{ contractId, staked }} /> :
+                        <StakedView {...{ contractId, unstaked, staked }} /> :
                         <UnstakedView {...{ currentUser, contractId }} />
             }
         </div>

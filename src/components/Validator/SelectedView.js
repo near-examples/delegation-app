@@ -7,7 +7,7 @@ import Avatar from './Avatar'
 import InputNear from './../InputNear'
 
 import {
-    updateState, depositAndStake, onContractChange
+    updateState, depositAndStake, onContractChange, onContractView
 } from '../../redux/validator'
 
 import countries from '../../data/countries'
@@ -49,10 +49,8 @@ const Root = styled.section`
     }
 `;
 
-const SelectedView = ({selectedAction, contractId, staked }) => {
+const SelectedView = ({selectedAction, contractId, staked, currentUser }) => {
     const dispatch = useDispatch()
-
-    console.log(selectedAction)
 
     const option = selectedAction === 'stake' ? {
             label: 'Stake',
@@ -61,6 +59,7 @@ const SelectedView = ({selectedAction, contractId, staked }) => {
         } : {
             label: 'Withdraw',
             desc: `Withdraw up to ${nearTo(staked, 4)} Ⓝ from this validator. Enter the amount you want to withdraw:`,
+            // action: (amount) => dispatch(onContractChange('unstake', {amount}))
             action: (amount) => dispatch(onContractChange('withdraw', {amount}))
         }
 
@@ -74,6 +73,31 @@ const SelectedView = ({selectedAction, contractId, staked }) => {
                 {option.desc}
             </p>
         </div>
+
+        <div>
+        <button onClick={() => {
+            dispatch(onContractChange('ping'))
+        }}>
+            Ping
+        </button>
+
+        <button onClick={() => {
+            dispatch(onContractView('is_account_unstaked_balance_available', {account_id: currentUser.accountId }))
+        }}>
+            Test
+        </button></div>
+
+        <div>
+        <button onClick={() => {
+            dispatch(onContractChange('deposit', {}, '1'))
+        }}>
+            Deposit 1
+        </button>
+        <button onClick={() => {
+            dispatch(onContractChange('unstake', { amount: '1' }))
+        }}>
+            Unstake 1
+        </button></div>
         
         <div className="actions">
             <div>🔒 You will be sent to your wallet to confirm this transaction.</div>

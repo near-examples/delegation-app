@@ -33,7 +33,6 @@ const InputNear = ({
     const [amount, setAmount] = useState('0')
 
     return <Root>
-        {/* <div className="note">You will be sent to your wallet to confirm this transaction.</div> */}
         <div className="near"><strong>Ⓝ</strong>
             <input type="number" onChange={(e) => setAmount(e.target.value)} />
         </div>

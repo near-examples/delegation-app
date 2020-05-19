@@ -4,6 +4,7 @@
   font-family: 'Inter', sans-serif;
 }
 
+
 html {
   --bg: #fff;
   --fg: #25282A;
@@ -15,6 +16,8 @@ html {
   --tertiary: #FF585D;
   --margin: 32px;
   --half-margin: 16px;
+  --blue: #0071CE;
+  --mint: #00C08B;
 
   background-color: var(--bg);
   color: var(--fg);
@@ -120,8 +123,8 @@ button, input {
 }
 
 button {
-  color: #00C08B;
-  border-color: #00C08B; 
+  color: var(--mint);
+  border-color: var(--mint); 
   position: relative;
   transition: top 25ms;
   &:hover, &:focus {

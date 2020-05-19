@@ -75,6 +75,7 @@ export const onContractView = (method, args, stateProp) => async (dispatch, getS
 	if (stateProp) {
 		dispatch({ type, [stateProp]: res })
 	}
+	console.log(res)
 	return res
 }
 /********************************

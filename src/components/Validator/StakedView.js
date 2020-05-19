@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { nearTo } from '../../util/near-util'
 
 import {
-    updateState,
+    updateState, 
 } from '../../redux/validator'
 import Avatar from './Avatar'
 import InputNear from './../InputNear'
@@ -15,7 +15,6 @@ import countries from '../../data/countries'
 const Root = styled.section`
         display: flex;
         align-items: center;
-
         .desc {
             width: 100%;
             align-self: flex-start;
@@ -32,29 +31,63 @@ const Root = styled.section`
             }
         }
         .near {
-            text-align: right;
-            width: 150px;
-            min-width: 150px;
-            font-size: 16px;
-            font-weight: bold;
+            min-width: 400px;
+            margin: var(--half-margin);
+            > div {
+                display: flex;
+                align-items: center;
+                font-weight: 300;
+                > div {
+                    width: 250px;
+                    text-align: left;
+                }
+                > div:first-child {
+                    width: 150px;
+                }
+            }
+            /* the labels */
+            > div:nth-child(1) {
+                text-transform: uppercase;
+                span {
+                    color: var(--mint);
+                }
+                margin-bottom: var(--half-margin);
+            }
+            /* the near amounts */
+            > div:nth-child(2) {
+                font-weight: bold;
+                font-size: 20px;
+                transform-origin: 0 50%;
+                transform: scale(1.1, 1);
+                > div:nth-child(2) {
+                    margin-left: -15px;
+                    span {
+                        color: #999;
+                        span {
+                            font-size: 0.7rem;
+                        }
+                    }
+                }
+            }
         }
         .actions {
-            text-align: right;
-            width: 300px;
-            min-width: 300px;
-            margin-left: auto;
+            width: 128px;
+            min-width: 128px;
+            button {
+                min-width: 128px;
+                display: block;
+                margin-left: auto;
+            }
             button:first-child {
-                margin-right: 16px;
-                color: #0071CE;
-                border-color: #0071CE;
+                margin-bottom: var(--half-margin);
+                color: var(--blue);
+                border-color: var(--blue);
             }
         }
     
 `;
 
-// staking-pool-2
-
-const StakedView = ({ staked, contractId }) => {
+const StakedView = ({ staked, unstaked, contractId }) => {
     const dispatch = useDispatch()
 
     return <Root>
@@ -68,7 +101,14 @@ const StakedView = ({ staked, contractId }) => {
             </p>
         </div>
         <div className="near">
-            Ⓝ {nearTo(staked, 4)}
+            <div>
+                <div>🔒 Staked</div>
+                <div><span>Available</span> / Pending</div>
+            </div>
+            <div>
+                <div>Ⓝ {nearTo(staked, 2)}</div>
+                <div>Ⓝ {nearTo(unstaked, 2)} <span>+{nearTo(unstaked, 2)} <span>in 48 h</span></span></div>
+            </div>
         </div>
         <div className="actions">
             <button onClick={() => {
