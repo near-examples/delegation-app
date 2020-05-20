@@ -33,6 +33,11 @@ const Root = styled.header`
         }
         > div:nth-child(2) {
             color: #00C08B;
+            strong {
+                display: inline-block;
+                vertical-align: middle;
+                transform: scale(1.1, 1);
+            }
         }
     }
     @media (max-width: 414px) {

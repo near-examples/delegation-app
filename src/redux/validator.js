@@ -97,6 +97,7 @@ export const onContractChange = (method, args = {}, payableAmount = '0') => asyn
 		console.log('no contract selected')
 		return
 	}
+	// console.log(method, args, payableAmount)
 	//call
 	const res = await contract[method](args, BOATLOAD_OF_GAS, payableAmount)
 		.catch((e) => { console.log(e) }) // (web wallet handles this part)

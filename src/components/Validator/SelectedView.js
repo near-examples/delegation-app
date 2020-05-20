@@ -70,14 +70,14 @@ const SelectedView = ({selectedAction, contractId, staked, unstaked }) => {
         break
         case 'withdraw': option = {
             label: 'Withdraw',
-            desc: `Withdraw up to ${nearTo(unstaked, 4)} Ⓝ from this validator. Enter the amount you want to withdraw:`,
+            desc: `Withdraw up to ${nearTo(unstaked, 2)} Ⓝ from this validator. Enter the amount you want to withdraw:`,
             // action: (amount) => dispatch(onContractChange('unstake', {amount}))
             action: (amount) => dispatch(onContractChange(selectedAction, {amount}))  // amount is in near (big)
         }
         break
         case 'unstake': option = {
             label: 'Unstake',
-            desc: `Unstake up to ${nearTo(staked, 4)} Ⓝ from this validator. Enter the amount you want to unstake:`,
+            desc: `Unstake up to ${nearTo(staked, 2)} Ⓝ from this validator. Enter the amount you want to unstake:`,
             // action: (amount) => dispatch(onContractChange('unstake', {amount}))
             action: (amount) => dispatch(onContractChange(selectedAction, {amount}))  // amount is in near (big)
         }

@@ -91,7 +91,7 @@ const Root = styled.section`
 const StakedView = ({ contractId, staked, unstaked, unstakedAvailable }) => {
     const dispatch = useDispatch()
 
-    console.log(unstaked, gtZeroApprox(unstaked))
+    console.log(unstaked, unstakedAvailable, gtZeroApprox(unstaked))
 
     return <Root>
         <Avatar />
@@ -130,7 +130,7 @@ const StakedView = ({ contractId, staked, unstaked, unstakedAvailable }) => {
                 Stake
             </button>
             {
-                unstakedAvailable ?
+                unstakedAvailable && gtZeroApprox(unstaked) ?
                 <button onClick={() => {
                     dispatch(updateState('selectedAction', 'withdraw'))
                     dispatch(updateState('selectedContract', contractId))
