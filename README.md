@@ -2,11 +2,7 @@ Delegation App
 =================================
 
 ## WIP
-- Fix withdraw (add unstake)
-- Staked / Unstaked balance on UI
-- [bug] Tracking ([#1][i1])
-
-[i1]: https://github.com/near-examples/delegation-app/issues/1
+- Remove helper buttons used for debugging
 
 ## Quick Install
 - `yarn`
