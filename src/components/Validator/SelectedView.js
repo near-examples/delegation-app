@@ -100,7 +100,7 @@ const SelectedView = ({selectedAction, contractId, staked, unstaked }) => {
             Debugging
             ********************************/
         }
-        <div>
+        {/* <div>
             <button onClick={() => {
                 dispatch(onContractChange('ping'))
             }}>
@@ -118,7 +118,7 @@ const SelectedView = ({selectedAction, contractId, staked, unstaked }) => {
             }}>
                 Unstake 1
             </button>
-        </div>
+        </div> */}
         {
             /********************************
             END OF Debugging

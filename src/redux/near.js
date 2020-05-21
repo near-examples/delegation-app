@@ -1,9 +1,10 @@
 
 import { getReducer, getState } from '../util/redux-util'
 import getConfig from './../config.js'
+import { network } from '../config-app.js'
 import * as nearAPI from 'near-api-js'
 import Big from 'big.js'
-const nearConfig = getConfig(process.env.NODE_ENV || 'development')
+const nearConfig = getConfig(network || process.env.NODE_ENV || 'development')
 const BOATLOAD_OF_GAS = Big(2).times(10 ** 14).toFixed()
 
 //default state
@@ -33,7 +34,6 @@ export const signOut = () => async (dispatch, getState) => {
     window.location = '/'
 }
 export const initNear = () => async (dispatch) => {
-	const { contractNames } = getState().nearReducer || defaultState
 	// Initializing connection to the NEAR DevNet
 	const near = await nearAPI.connect({
 		deps: {

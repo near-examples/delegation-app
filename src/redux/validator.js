@@ -1,18 +1,11 @@
 
 import { getReducer, getState } from '../util/redux-util'
 import { big, gtZero } from '../util/near-util'
-import getConfig from '../config.js'
+import { validators } from '../config-app.js'
 import * as nearAPI from 'near-api-js'
 import Big from 'big.js'
-const nearConfig = getConfig(process.env.NODE_ENV || 'development')
 const BOATLOAD_OF_GAS = Big(2).times(10 ** 14).toFixed()
-const contractNames = [
-	'staking-pool-2',
-	'mattlock-val-2',
-	'mattlock-val-3',
-	'dev-1589245082250',
-	'not-a-contract',
-]
+const contractNames = validators
 const stakingMethods = {
 	viewMethods: [
 		'get_account_staked_balance',

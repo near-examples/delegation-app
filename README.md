@@ -1,16 +1,28 @@
 Delegation App
 =================================
 
-## WIP
-- Remove helper buttons used for debugging
-
 ## Quick Install
 - `yarn`
-- `yarn dev`
+- `yarn start:dev`
 App should be running on http://localhost:1234 with parcel
 
 ### You will need
 - a web wallet https://wallet.nearprotocol.com/
+
+## Configure the network and additional contracts
+Right now this application will launch on `testnet` (development).
+If you want to connect to `betanet` edit the following in `/config-app.js`
+```
+network: 'development', // comment this line
+// network: 'betanet',  // uncomment this line
+```
+NOTE: you will have to change the list of validators since these validators only exist on `testnet`
+```
+validators: [
+    'my-betanet-validator-account-id',
+    ...
+]
+```
 
 ## Deploy your own contract
 - make sure you have `near-shell` installed

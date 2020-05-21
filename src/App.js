@@ -84,7 +84,7 @@ const App = (props) => {
 					}} />
 				)
 			}
-			<Heading>EXPLORE VALIDATORS {isLoading ? `(loading${loadingElip})` : ''}</Heading>
+			{ unstaked.length > 0 && <Heading>EXPLORE VALIDATORS {isLoading ? `(loading${loadingElip})` : ''}</Heading>}
 			{
 				unstaked.map((contract) => 
 				<Validator {...{
