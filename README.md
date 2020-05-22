@@ -9,9 +9,13 @@ App should be running on http://localhost:1234 with parcel
 ### You will need
 - a web wallet https://wallet.nearprotocol.com/
 
-## Configure the network and additional contracts
-Right now this application will launch on `testnet` (development).
-If you want to connect to `betanet` edit the following in `/config-app.js`
+## Configure account, network and additional validator contracts
+App configuration can be found in `/config-app.js`.
+
+Please set `accountId` to your account ID.
+
+Select your network `testnet` (development), or `betanet`.
+e.g. If you want to connect to `betanet` edit the following in `/config-app.js`
 ```
 network: 'development', // comment this line
 // network: 'betanet',  // uncomment this line

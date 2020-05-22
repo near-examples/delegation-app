@@ -11,10 +11,16 @@ module.exports = {
     network: 'development', 
     // network: 'betanet', 
 
+    // these validators are on betanet
+    // validators: [
+    //     'c2.nuc001.betanet',
+    // ]
+
     // these validators are on testnet (development)
     // add your own contract accountIds
     validators: [
-        'nearkat',
-        'dokiacapital.betanet',
+        'staking-pool-2',
+        'mattlock-val-2',
+        'mattlock-val-3',
     ]
 }

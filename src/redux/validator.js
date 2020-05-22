@@ -124,6 +124,8 @@ export const initValidators = () => async (dispatch, getState) => {
 				.then((res) => contract.unstakedAvailable = res || false)
 				.catch((e) => contract.unstakedAvailable = false)
 		]).then(() => {
+			const { staked, unstaked, unstakedAvailable } = contract
+			console.log(staked, unstaked, unstakedAvailable)
 			dispatch({ type, contracts }) // update UI with each contract we instantiate
 		})
 	}
