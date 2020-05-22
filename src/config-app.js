@@ -6,7 +6,7 @@ network will be UX or hard coded for specific URLs
 validators will connect to a live list of validators
 ********************************/
 module.exports = {
-    // accountId: 'account-id', // unused right now, web wallet handles this flow with sign in
+    accountId: 'account-id',
 
     network: 'development', 
     // network: 'betanet', 
@@ -14,8 +14,7 @@ module.exports = {
     // these validators are on testnet (development)
     // add your own contract accountIds
     validators: [
-        'staking-pool-2',
-        'mattlock-val-2',
-        'mattlock-val-3',
+        'nearkat',
+        'dokiacapital.betanet',
     ]
 }

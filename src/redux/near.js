@@ -1,6 +1,7 @@
 
 import { getReducer, getState } from '../util/redux-util'
 import getConfig from './../config.js'
+import { accountId } from '../config-app.js'
 import { network } from '../config-app.js'
 import * as nearAPI from 'near-api-js'
 import Big from 'big.js'
@@ -20,10 +21,10 @@ export const updateState = (prop, value) => async (dispatch, getState) => {
 	dispatch({ type, [prop]: value})
 }
 // the contract here doesn't really matter but it should be one we use
-export const signIn = (contractName = 'dev-1589245082250') => async (dispatch, getState) => {
+export const signIn = () => async (dispatch, getState) => {
 	const { walletConnection } = getState().nearReducer
     walletConnection.requestSignIn(
-        contractName,
+        accountId,
         'Near Staking Rewards'
     )
 }
