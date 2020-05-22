@@ -96,7 +96,7 @@ const StakedView = ({ contractId, staked, unstaked, unstakedAvailable }) => {
     return <Root>
         <Avatar />
         <div className="desc">
-            <h1>{contractId} {countries.CA.emoji}</h1>
+            <h1>{contractId} 🏴‍☠️{/*countries.CA.emoji*/}</h1>
             <p>
                 <a href={`https://explorer.testnet.near.org/accounts/${contractId}`} target="_blank">
                     📈  View transactions on Near

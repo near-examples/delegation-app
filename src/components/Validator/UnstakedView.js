@@ -53,7 +53,8 @@ const UnstakedView = ({ currentUser, contractId }) => {
         </div>
         <div className="flag">
             {/* {countries.CA.emoji} */}
-            <img src={`https://cdn.countryflags.com/thumbs/${countries.CA.name.toLowerCase()}/flag-400.png`} />
+            🏴‍☠️
+            {/* <img src={`https://cdn.countryflags.com/thumbs/${countries.CA.name.toLowerCase()}/flag-400.png`} /> */}
         </div>
         <div className="start">
             <button disabled={!currentUser} onClick={() => {
