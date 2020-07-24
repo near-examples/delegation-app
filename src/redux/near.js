@@ -35,7 +35,7 @@ export const signOut = () => async (dispatch, getState) => {
     window.location = '/'
 }
 export const initNear = () => async (dispatch) => {
-	// Initializing connection to the NEAR DevNet
+	// Initializing connection to the NEAR TestNet
 	const near = await nearAPI.connect({
 		deps: {
 			keyStore: new nearAPI.keyStores.BrowserLocalStorageKeyStore()
